@@ -17,6 +17,9 @@ public class ClsNote {
         this.phoneNumber = phoneNumber;
         this.gender = gender;
     }
+    public ClsNote() {
+        super();
+    }
     public String getLastName() {
         return lastName;
     }
