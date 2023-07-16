@@ -8,7 +8,7 @@ import views.ViewNote;
 public class App {
     public static void main(String[] args) throws Exception {
 
-    System.out.println("Здравствуйте!");
+    System.out.println("\nЗдравствуйте!\n");
 
     StorageActions storageActions = new ClsSAi(null);
     DataVerification dataVerification = new ClsDVi();
@@ -16,5 +16,6 @@ public class App {
     ViewNote viewNote = new ViewNote(noteController);
     viewNote.run();
 
+    System.out.println("\nДо свидания!\n");
     }
 }

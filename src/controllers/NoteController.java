@@ -1,5 +1,6 @@
 package controllers;
 
+import exception.ExNoData;
 import interfaces.DataVerification;
 import interfaces.StorageActions;
 import models.ClsNote;
@@ -18,6 +19,7 @@ public class NoteController {
 
     public ClsNote ParsData(String line){
         ClsNote note = null;
+        // Здесь нужно прочесть и определить введенные данные
         return note;
     }
     
@@ -32,8 +34,18 @@ public class NoteController {
     }
 
     public void saveNoteToTxt(ClsNote note){
+        if (note == null) {
+            try {
+                throw new ExNoData();
+            } catch (Exception e) {
+                ((ExNoData) e).exNoData();
+            }
+        }
+        else {
         String line = NoteToLine(note);
         storageActions.SaveNote(line);
+        }
+        
     }
 }
 

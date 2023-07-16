@@ -15,12 +15,18 @@ public class ViewNote {
     public void run() {
         boolean continuation = true;
         do {
-            String dataLine = prompt("Введите данные через пробел: ФИО, пол (m/f), дата рождения (дд.мм.гггг) номер телефона:\n");
-            ClsNote note = noteController.ParsData(dataLine);
-            noteController.saveNoteToTxt(note);
-            if (prompt("Введём ещё данные? y/n:").toUpperCase() == "N") {
-                continuation = false;
-            }            
+            try {
+                String dataLine = prompt("Введите данные через пробел: ФИО, пол (m/f), дата рождения (дд.мм.гггг) номер телефона:\n");
+                ClsNote note = noteController.ParsData(dataLine);
+                noteController.saveNoteToTxt(note);
+                String getContinued = prompt("Введём ещё данные? y/n: ").toUpperCase();
+                if (getContinued.equals("N")) {
+                    continuation = false;
+                };        
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+                      
         } while (continuation);            
 
     }
