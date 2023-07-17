@@ -149,6 +149,7 @@ public class NoteController {
 
     public void saveNoteToTxt(ClsNote note) {      
         String line = NoteToLine(note);
-        storageActions.SaveNote(line);
+        String fileName = note.getLastName() + ".txt";
+        storageActions.SaveNote(line, fileName);
     }
 }

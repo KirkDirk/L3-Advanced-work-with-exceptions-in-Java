@@ -1,16 +1,25 @@
 package interfaces;
 
-public class ClsSAi implements StorageActions {
-    private String filename = "";
+import java.io.FileWriter;
+import java.io.IOException;
 
-    public ClsSAi(String filename) {
-        this.filename = filename;
+public class ClsSAi implements StorageActions {
+    private String dirName; 
+
+    public ClsSAi(String dirName) {
+        this.dirName = "src\\storage\\";
     }
 
     @Override
-    public boolean SaveNote(String line) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'SaveNote'");
+    public void SaveNote(String line, String fileName) {
+        System.out.println(dirName+fileName);
+        try (FileWriter wrtr = new FileWriter(dirName+fileName, true)) {
+            wrtr.write(line);
+            wrtr.flush();
+            wrtr.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
