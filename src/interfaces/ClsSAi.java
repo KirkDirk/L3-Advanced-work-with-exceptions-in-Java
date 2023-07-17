@@ -12,7 +12,6 @@ public class ClsSAi implements StorageActions {
 
     @Override
     public void SaveNote(String line, String fileName) {
-        System.out.println(dirName+fileName);
         try (FileWriter wrtr = new FileWriter(dirName+fileName, true)) {
             wrtr.write(line);
             wrtr.flush();
@@ -22,16 +21,4 @@ public class ClsSAi implements StorageActions {
         }
     }
 
-    @Override
-    public boolean CheckFileEmpty(String filename) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'CheckFileEmpty'");
-    }
-
-    @Override
-    public String ReadDataFromFile(String filename) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'ReadDataFromFile'");
-    }
-    
 }

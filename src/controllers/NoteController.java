@@ -11,17 +11,14 @@ import exception.ExLessData;
 import exception.ExMoreData;
 import exception.ExMoreNumberPhone;
 import exception.ExNoGender;
-import interfaces.DataVerification;
 import interfaces.StorageActions;
 import models.ClsNote;
 
 public class NoteController {
     private StorageActions storageActions;
-    private DataVerification dataVerification;
 
-    public NoteController(StorageActions storageActions, DataVerification dataVerification) {
+    public NoteController(StorageActions storageActions) {
         this.storageActions = storageActions;
-        this.dataVerification = dataVerification;
     }
 
     /**

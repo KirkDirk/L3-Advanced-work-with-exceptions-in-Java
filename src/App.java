@@ -1,7 +1,5 @@
 import controllers.NoteController;
-import interfaces.ClsDVi;
 import interfaces.ClsSAi;
-import interfaces.DataVerification;
 import interfaces.StorageActions;
 import views.ViewNote;
 
@@ -11,8 +9,7 @@ public class App {
     System.out.println("\nЗдравствуйте!\n");
 
     StorageActions storageActions = new ClsSAi(null);
-    DataVerification dataVerification = new ClsDVi();
-    NoteController noteController = new NoteController(storageActions, dataVerification);
+    NoteController noteController = new NoteController(storageActions);
     ViewNote viewNote = new ViewNote(noteController);
     viewNote.run();
 
