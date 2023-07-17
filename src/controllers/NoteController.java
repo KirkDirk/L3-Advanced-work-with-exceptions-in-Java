@@ -1,7 +1,15 @@
 package controllers;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
+import java.util.Locale;
+
+import exception.ExIncorrectData;
 import exception.ExLessData;
 import exception.ExMoreData;
+import exception.ExMoreNumberPhone;
 import exception.ExNoGender;
 import interfaces.DataVerification;
 import interfaces.StorageActions;
@@ -15,10 +23,6 @@ public class NoteController {
         this.storageActions = storageActions;
         this.dataVerification = dataVerification;
     }
-
-    // public NoteController(StorageActions storageActions, DataVerification
-    // dataVerification) {
-    // }
 
     /**
      * Метод для расшифровки введённых данных
@@ -48,6 +52,7 @@ public class NoteController {
             } catch (ExMoreData e) {
                 e.exMoreData();
             }
+        String fio = ""; // Переменная для сбора вводимых ФИО
         /** Проверяем введенные данные */
         for (String partLine : noteArrStrings) {
             /** Проверяем односимвольное значение на соответствие полу в формате: m/f */
@@ -62,22 +67,68 @@ public class NoteController {
                         e.exNoGender();
                     }
                 }
-            /** Проверяем значение с точками на соответствие дате в формате dd.mm.yyyy */
+                /** Проверяем значение с точками на соответствие дате в формате dd.mm.yyyy */
             } else if (partLine.matches("\\d{1,2}\\.\\d{1,2}\\.\\d{4}")) {
-                String[] dateArrStrings = partLine.split(".\\");
+                DateTimeFormatter dtf =new DateTimeFormatterBuilder()
+                                        .parseCaseInsensitive()
+                                        .appendPattern("dd.MM.yyyy")
+                                        .toFormatter(Locale.ENGLISH);
+                try {
+                    LocalDate ld = LocalDate.parse(partLine, dtf); // переменная ld используется только для парсинга даты
+                    note.setBirthDate(partLine);
+                } catch (DateTimeParseException e) {
+                    System.out.println("Exception: DataTimeParseException - Дата рождения введена в неверном формате\n");
+                }
+            } else if (partLine.matches("[0-9]+")) {
+                if (partLine.length() < 12) {
+                    note.setPhoneNumber(partLine);
+                } else {
+                    try {
+                        throw new ExMoreNumberPhone();
+                    } catch (ExMoreNumberPhone e) {
+                        e.exMoreNumberPhone();
+                    }
+                }
+            } else if (partLine.matches("[A-Za-z]+")) {
+                fio += partLine + " ";
             } else {
-                
+                try {
+                    throw new ExIncorrectData();
+                } catch (ExIncorrectData e) {
+                    e.exIncorrectData();
+                }
             }
-            
+
         }
+        /** Собираем fio в текущий экземпляр класса Note */
+        String[] fioStrings = fio.split(" ");
+        if (fioStrings.length == 3) {
+            note.setLastName(fioStrings[0]);
+            note.setFirstName(fioStrings[1]);
+            note.setPatronymic(fioStrings[2]);
+        } else
+            try {
+                throw new ExIncorrectData();
+            } catch (ExIncorrectData e) {
+                e.exIncorrectData();
+            }
+        /** Проверяем данные в текущем экземпляре класса Note. Выводим информацию об 
+         * отсутствующих сведениях в случае, если какие-то из введённых данных не распарсились.
+         */
+        if (note.getLastName() == null)
+            System.out.println("В введённых данных отсутствует фамилия");
+        if (note.getFirstName() == null)
+            System.out.println("В введённых данных отсутствует имя");
+        if (note.getPatronymic() == null)
+            System.out.println("В введённых данных отсутствует отчество");
+        if (note.getGender() == null)
+            System.out.println("В введённых данных отсутствует пол");
+        if (note.getBirthDate() == null)
+            System.out.println("В введённых данных отсутствует дата рождения");
+        if (note.getPhoneNumber() == null)
+            System.out.println("В введённых данных отсутствует телефонный номер");
         return note;
     }
-
-    // Это не нужно, если используется только один раз в ParsData
-    // String[] LineToNoteArrStrings(String line){
-    // String[] noteArrStrings= line.split(" ");
-    // return noteArrStrings;
-    // }
 
     /**
      * Метод преобразования класса Note в строку в определенной последовательности
@@ -96,18 +147,8 @@ public class NoteController {
         return line;
     }
 
-    public void saveNoteToTxt(ClsNote note) {
-        // dataVerification.CheckNoteIsNull(note);
-        // if (note == null) {
-        // try {
-        // throw new ExNoData();
-        // } catch (Exception e) {
-        // ((ExNoData) e).exNoData();
-        // }
-        // }
-        // else {
+    public void saveNoteToTxt(ClsNote note) {      
         String line = NoteToLine(note);
         storageActions.SaveNote(line);
-        // }
     }
 }

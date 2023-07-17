@@ -5,10 +5,10 @@ public class ClsNote {
     private String firstName;
     private String patronymic;
     private String birthDate;
-    private int phoneNumber;
+    private String phoneNumber;
     private String gender;
    
-    public ClsNote(String lastName, String firstName, String patronymic, String birthDate, int phoneNumber,
+    public ClsNote(String lastName, String firstName, String patronymic, String birthDate, String phoneNumber,
             String gender) {
         this.lastName = lastName;
         this.firstName = firstName;
@@ -44,10 +44,10 @@ public class ClsNote {
     public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
     public String getGender() {
