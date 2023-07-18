@@ -26,8 +26,8 @@ public class NoteController {
      * 
      * @param line строка, введённая пользователем в консоль
      * @return класс Note
-     * @throws ExLessData
-     * @throws ExMoreData
+     * @throws ExLessData исключение недостатка введённых данных
+     * @throws ExMoreData исключение избытка введённых данных
      */
     public ClsNote ParsData(String line) {
         ClsNote note = new ClsNote();
@@ -76,6 +76,7 @@ public class NoteController {
                 } catch (DateTimeParseException e) {
                     System.out.println("Exception: DataTimeParseException - Дата рождения введена в неверном формате\n");
                 }
+                /** Проверяем значение с цифрами на соответствие телефонному номеру размером не больше 11 цифр */
             } else if (partLine.matches("[0-9]+")) {
                 if (partLine.length() < 12) {
                     note.setPhoneNumber(partLine);
@@ -86,8 +87,10 @@ public class NoteController {
                         e.exMoreNumberPhone();
                     }
                 }
+                /** Проверяем значение ФИО на наличие в введенных данных только букв */
             } else if (partLine.matches("[A-Za-z]+")) {
                 fio += partLine + " ";
+                /** Здесь собираются все данные, которые не распознаны по заданным условиям */
             } else {
                 try {
                     throw new ExIncorrectData();
@@ -97,7 +100,9 @@ public class NoteController {
             }
 
         }
-        /** Собираем fio в текущий экземпляр класса Note */
+        /** Собираем fio в текущий экземпляр класса Note, исходя из условия, что 
+         * во-первых, вводится фамилия, потом имя, потом отчество
+         */
         String[] fioStrings = fio.split(" ");
         if (fioStrings.length == 3) {
             note.setLastName(fioStrings[0]);
@@ -111,6 +116,7 @@ public class NoteController {
             }
         /** Проверяем данные в текущем экземпляре класса Note. Выводим информацию об 
          * отсутствующих сведениях в случае, если какие-то из введённых данных не распарсились.
+         * Это помогает определить в каких данных нужно внести корректировку
          */
         if (note.getLastName() == null)
             System.out.println("В введённых данных отсутствует фамилия");
@@ -144,6 +150,10 @@ public class NoteController {
         return line;
     }
 
+    /**
+     * Метод для записи данных в файл. Имя файла формируется из введённой фамилии и расширения txt
+     * @param note
+     */
     public void saveNoteToTxt(ClsNote note) {      
         String line = NoteToLine(note);
         String fileName = note.getLastName() + ".txt";

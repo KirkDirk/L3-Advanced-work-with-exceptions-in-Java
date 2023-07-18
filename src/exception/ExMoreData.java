@@ -1,5 +1,6 @@
 package exception;
 
+/** Исключение, обрабатывающее избыток введённых данных */
 public class ExMoreData extends Exception{
     public ExMoreData(){}
     public void exMoreData(){

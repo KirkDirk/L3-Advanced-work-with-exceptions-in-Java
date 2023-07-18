@@ -4,8 +4,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class ClsSAi implements StorageActions {
+    /** Адрес папки, в которой хранятся введённые данные */
     private String dirName; 
 
+    /**
+     * Конструктор интерфейса с адресом хранения данных
+     * @param dirName
+     */
     public ClsSAi(String dirName) {
         this.dirName = "src\\storage\\";
     }

@@ -1,11 +1,17 @@
 package models;
 
 public class ClsNote {
+    /** Класс Запись. Поле Фамилия */
     private String lastName;
+    /** Класс Запись. Поле Имя */
     private String firstName;
+    /** Класс Запись. Поле Отчество */
     private String patronymic;
+    /** Класс Запись. Поле Дата рождения */
     private String birthDate;
+    /** Класс Запись. Поле Номер телефона */
     private String phoneNumber;
+    /** Класс Запись. Поле Пол */
     private String gender;
    
     public ClsNote(String lastName, String firstName, String patronymic, String birthDate, String phoneNumber,
